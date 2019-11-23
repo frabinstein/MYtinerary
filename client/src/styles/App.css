@@ -1,0 +1,221 @@
+/*
+  MYtinerary colors:
+  red: #df3000ff;
+  gray: #3c4f56ff;
+
+  light-gray: #e7e7e7ff;
+  mid-gray: #55688b5b;
+  dark-gray: #1b212cff;
+*/
+
+* {
+  box-sizing: border-box;
+  text-align: center;
+}
+/*
+section {
+  border: 1px solid blue;
+}
+
+div, img, p, h2, h3 {
+  border: 1px solid blue;
+}
+*/
+html, body, #root, #main {
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  max-height: 800px;
+  max-width: 500px;
+  padding: 3%;
+}
+
+#header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+}
+
+#userIcon {
+  width: 30px;
+  margin: 4px 12px;
+}
+
+#hamburgerButton {
+  border: 0;
+}
+
+#logo {
+  width: 94%;
+  max-width: 400px;
+  margin: 3%;
+}
+
+p, h2, h3 {
+  color: #3c4f56ff;
+  margin: 0 20px;
+  max-width: 18em;
+  line-height: normal;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-grow: 1;
+  margin: 0 3%;
+}
+
+h2 {
+  font-size: 1.7em;
+}
+#start p {
+  font-style: oblique;
+}
+
+#start a {
+  display: block;
+}
+
+#arrow {
+  width: 70px;
+  margin: 5px;
+}
+
+#user p {
+  font-weight: bold;
+}
+
+#user div {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0.5em 0;
+}
+
+h3 {
+  font-size: 1.3em;
+}
+
+#citiesCarousel h3 {
+  text-align: left;
+  margin: 0 0 0.1em 0;
+}
+
+.carousel {
+  display: grid;
+  grid-template-areas: "slide slide slide" "previous indicators next";
+}
+
+.carousel-inner {
+  grid-area: slide;
+}
+
+.carousel-control-prev {
+  grid-area: previous;
+  justify-content: flex-end;
+}
+
+.carousel-control-next {
+  grid-area: next;
+  justify-content: flex-start;
+}
+
+.carousel-control-prev, .carousel-control-next {
+  position: static;
+  width: 100%;
+  opacity: 1;
+}
+
+.carousel-control-prev-icon {
+  background-image: url('../images/icons-logos/previous.png');
+}
+
+.carousel-control-next-icon {
+  background-image: url('../images/icons-logos/next.png');
+}
+
+.carousel-indicators {
+  position: static;
+  grid-area: indicators;
+  margin: 0;
+}
+
+.carousel-indicators li {
+  background-color: #3c4f56ff;
+  margin: 10px;
+  width: 10px;
+  height: 10px;
+  border: 0;
+  border-radius: 50%;
+}
+
+.citiesGrid {
+  display: grid;
+  grid-template: auto auto / auto auto;
+  row-gap: 0.8em;
+  column-gap: 1em;
+}
+
+.gridCell {
+  position: relative;
+}
+
+.gridCell > img {
+  width: 100%;
+  border: 1px solid #55688b88;
+}
+
+.gridCell > p {
+  position: absolute;
+  bottom: 10%;
+  width: 100%;
+  margin: 0;
+  color: #e7e7e7ff;
+  background: #55688b88;
+}
+
+#homeButton {
+  width: 40px;
+}
+
+@media only screen and (orientation:landscape) and (max-height: 600px){
+  body {
+    height: 100vw;
+    transform: rotate(90deg);
+  }
+  #root {
+    align-items: flex-start;
+  }
+  #main {
+    width: 100vh;
+  }
+}
+
+@media only screen and (max-height: 639px) {
+  #logo {
+    margin: 2%;
+  }
+  p {
+    font-size: 90%;
+  }
+  #arrow {
+    width: 65px;
+  }
+  h3 {
+    font-size: 1.1em;
+  }
+}
