@@ -12,7 +12,9 @@
   "dependencies": {
     "concurrently": "^5.0.0",
     "cors": "^2.8.5",
+    "es6-promise": "^4.2.8",
     "express": "^4.17.1",
+    "isomorphic-fetch": "^2.2.1",
     "mongoose": "^5.7.13"
   }
 }

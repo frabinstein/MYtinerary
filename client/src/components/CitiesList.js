@@ -23,14 +23,14 @@ class CitiesList extends React.Component {
       isFetching: true
     })
     fetch(uri)
-    .then(response => response.json())
-    .then(data => {
-      this.setState({
-          cities: data,
-          isFetching: false,
-          filteredCities: data
-      })})
-    .catch(e => console.log(e));
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+            cities: data,
+            isFetching: false,
+            filteredCities: data
+        })})
+      .catch(e => console.log(e));
   }
 
   filterCities(filterValue) {
