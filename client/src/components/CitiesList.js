@@ -2,7 +2,6 @@ import React from 'react';
 
 const uri = 'http://localhost:5000/cities/all';
 
-
 class CitiesList extends React.Component {
   constructor(props) {
     super(props);
@@ -28,13 +27,12 @@ class CitiesList extends React.Component {
     })
     fetch(uri)
     .then(response => response.json())
-    .then(result => {
-      console.log("data: " + result.data)
+    .then(data => {
       this.setState({
-          cities: result.data,
+          cities: data,
           isFetching: false
       })})
-      .catch(e => console.log(e));
+    .catch(e => console.log(e));
   }
 
   render() {
@@ -53,15 +51,3 @@ class CitiesList extends React.Component {
 }
 
 export default CitiesList;
-
-
-
-fetch("http://localhost:5000/cities/all")
-.then((resp) => resp.json())
-.then(function(data) {
-  console.log(data);
-})
-.catch(function(error) {
-  console.log(error);
-});   
-
