@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const cityModel = require('../model/cityModel')
+const itineraryModel = require('../model/itineraryModel')
 
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
-/*Capitalizes first letter of each word in city name*/
+//Capitalizes first letter of each word in city name
 const capitalizeName = (name) => {
   return name
     .toLowerCase()
@@ -16,29 +17,50 @@ const capitalizeName = (name) => {
     .join(" ");
 }
 
+//Get test cities
 router.get('/test', 
   (req, res) => 
     res.send({ msg: 'Cities test route.' })
 )
 
-/*get all cities*/
+//Get list of all cities
 router.get('/all',
   (req, res) => {
     cityModel.find( {} )
-      .then(files => res.send(files))
+      .then(cities => res.send(cities))
       .catch(err => console.log(err));
   }
 )
 
-/*get cities matching name provided*/
-router.get('/city/:name',
+//Get city matching name provided
+router.get('/:name',
   (req, res) => {
-    cityModel.find( { name: capitalizeName(req.params.name) } )
-      .then(files => res.send(files))
+    cityModel.findOne( { name: capitalizeName(req.params.name) } )
+      .then(city => res.send(city))
       .catch(err => console.log(err));
   }
 )
 
+//Get list of all itineraries
+router.get('/itineraries/all',
+  (req, res) => {
+    itineraryModel.find( {} )
+      .then(itineraries => res.send(itineraries))
+      .catch(err => console.log(err));
+  }
+)
+
+//Get all itineraries for specific city
+router.get('/itineraries/:city_id',
+  (req, res) => {
+    console.log(req.params.city_id);
+    itineraryModel.find( { city_id: req.params.city_id } )
+      .then(itineraries => res.send(itineraries))
+      .catch(err => console.log(err));
+  }
+)
+
+//Post new city
 router.post('/', 
   (req, res) => {
     const newCity = new cityModel({
@@ -47,7 +69,7 @@ router.post('/',
     })
 
     /*Checking if city already exists*/
-    fetch("http://localhost:5000/cities/city/" + newCity.name)
+    fetch("http://localhost:5000/cities/" + newCity.name)
       .then(response => response.json())
       .then(data => {
         if(data.length == 0) {
@@ -63,5 +85,5 @@ router.post('/',
       .catch(e => console.log(e));
   }
 )
-    
+
 module.exports = router
