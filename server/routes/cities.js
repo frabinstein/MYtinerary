@@ -50,10 +50,18 @@ router.get('/itineraries/all',
   }
 )
 
-//Get all itineraries for specific city
+//Get all itineraries for specific city (by city name)
+router.get('/:name/itineraries',
+  (req, res) => {
+    itineraryModel.find( { city_id: req.body._id } )
+      .then(itineraries => res.send(itineraries))
+      .catch(err => console.log(err));
+  }
+)
+
+//Get all itineraries for specific city (by city id)
 router.get('/itineraries/:city_id',
   (req, res) => {
-    console.log(req.params.city_id);
     itineraryModel.find( { city_id: req.params.city_id } )
       .then(itineraries => res.send(itineraries))
       .catch(err => console.log(err));
