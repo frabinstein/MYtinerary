@@ -50,20 +50,36 @@ router.get('/itineraries/all',
   }
 )
 
+/*
 //Get all itineraries for specific city (by city name)
+  //(excluding activities)
 router.get('/:name/itineraries',
   (req, res) => {
-    itineraryModel.find( { city_id: req.body._id } )
+    cityModel.findOne( { name: capitalizeName(req.params.name) } )
+      .then(city => {
+        itineraryModel.find( { city_id: city._id }, '-activities' )
+          .then(itineraries => res.send(itineraries))
+      })
+    .catch(err => console.log(err));
+  }
+)
+*/
+
+//Get all itineraries for specific city
+  //(excluding activities)
+  router.get('/itineraries/:city_id',
+  (req, res) => {
+    itineraryModel.find( { city_id: req.params.city_id }, '-activities'  )
       .then(itineraries => res.send(itineraries))
       .catch(err => console.log(err));
   }
 )
 
-//Get all itineraries for specific city (by city id)
-router.get('/itineraries/:city_id',
+//Get activities for specific itinerary
+  router.get('/itinerary/:itinerary_id/activities',
   (req, res) => {
-    itineraryModel.find( { city_id: req.params.city_id } )
-      .then(itineraries => res.send(itineraries))
+    itineraryModel.find( { _id: req.params.itinerary_id }, 'activities -_id'  )
+      .then(activities => res.send(activities))
       .catch(err => console.log(err));
   }
 )

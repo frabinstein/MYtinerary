@@ -7,6 +7,7 @@ class Home extends React.Component {
   render() {
     return (
       <section className="content" id="home">
+        <img src={require('../images/icons-logos/MYtineraryLogo.png')} alt="" id="logo"/>
         <section id="start">
           <p>Find your perfect trip, designed by insiders who know and love their cities</p>
           <Link to="./cities">

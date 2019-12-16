@@ -14,12 +14,14 @@ class App extends React.Component {
       <Router>
         <article id="main">
           <Header />
-          <img src={require('./images/icons-logos/MYtineraryLogo.png')} alt="" id="logo"/>
           <Route exact path="/" component={Home} />
-          <Route path="/cities" component={CitiesList} />
-          <Route path="/city" component={City} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          <Route path="/cities" component={CitiesList} />
+          <Route path="/city" component={City} />
+          <Link to="./">
+              <img src={require('./images/icons-logos/homeIcon.png')} alt="" id="homeButton"/>
+          </Link>
         </article>
       </Router>
     );

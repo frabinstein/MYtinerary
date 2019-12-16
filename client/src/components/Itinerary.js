@@ -1,58 +1,49 @@
 import React from 'react';
-import Filter from './Filter';
+import {Link} from 'react-router-dom';
 
-const uri = 'http://localhost:5000/cities/all';
+const uri = 'http://localhost:5000/cities/itinerary/:itinerary_id/activities/';
 
 class Itinerary extends React.Component {
   constructor(props) {
     super(props);
-    this.filterCities = this.filterCities.bind(this);
+    this.itinerary = this.props.itinerary;
     this.state = { 
       isFetching: false,
-      cities: [],
-      filteredCities: []
+      activities: []
     };
   }
 
   componentDidMount() {
-    this.getCitiesList();
+    this.getActivities();
   }
 
-  getCitiesList = () => {
+  getActivities = () => {
     this.setState({
       isFetching: true
     })
-    fetch(uri)
+    fetch(uri.replace(":itinerary_id", this.itinerary._id))
       .then(response => response.json())
       .then(data => {
         this.setState({
-            cities: data,
-            isFetching: false,
-            filteredCities: data
+            activities: data[0].activities,
+            isFetching: false
         })})
       .catch(e => console.log(e));
   }
 
-  filterCities(filterValue) {
-    let filteredCities = this.state.cities
-    filteredCities = filteredCities.filter((city) =>
-      city.name.toLowerCase().indexOf(filterValue.toLowerCase()) == 0
-    )
-    this.setState({
-      filteredCities
-    })
-  }
-
   render() {
     return (
-      <section className="content">
-        <h1>Cities</h1>
-        <p>{this.state.isFetching ? 'Loading cities...' : ''}</p>
-        <Filter onFilterChange={this.filterCities} />
-        <div id="citiesList">
-        {this.state.filteredCities.map( city =>
-            <p key={city.name}><b>{city.name}</b>, {city.country}</p>
-          ) }
+      <section className="itineraryDetail">
+        <p>{this.state.isFetching ? 'Loading itineraries...' : ''}</p>
+        <div id="itinerariesList">
+        <p><b>{this.itinerary.title}</b></p>
+        <p>Likes: {this.itinerary.rating}</p>
+        <p>{this.itinerary.duration} Hours</p>
+        <p>$$ {this.itinerary.cost != 0 ? this.itinerary.cost : ""}</p>
+        <p>{this.itinerary.tags.join(" ")}</p>
+        <p>View all</p>
+        <h3>activities</h3>
+        <p>{this.state.activities.map(activity => activity.name).join(" ")}</p>
         </div>
       </section>
     );

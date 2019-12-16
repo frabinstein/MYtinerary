@@ -1,12 +1,14 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import Itinerary from './Itinerary';
 
-const uri = 'http://localhost:5000/cities/';
+const uri = 'http://localhost:5000/cities/itineraries/';
 
 class City extends React.Component {
   constructor(props) {
     super(props);
-    this.cityName = this.props.name;
+    this.city_id = this.props.location.city_id;
+    this.cityName = this.props.location.cityName;
     this.state = { 
       isFetching: false,
       itineraries: []
@@ -21,7 +23,7 @@ class City extends React.Component {
     this.setState({
       isFetching: true
     })
-    fetch(uri + this.cityName)
+    fetch(uri + this.city_id)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -39,10 +41,10 @@ class City extends React.Component {
         <p>{this.state.isFetching ? 'Loading itineraries...' : ''}</p>
         <div id="itinerariesList">
         {this.state.itineraries.map( itinerary =>
-            <p key={itinerary.title}><b>{itinerary.title}</b></p>
+          <Itinerary key={itinerary._id} itinerary={itinerary} />
           ) }
         </div>
-        <Link to="./city">Choose another city</Link>
+        <Link to="./cities">Choose another city</Link>
       </section>
     );
   }

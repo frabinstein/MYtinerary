@@ -1,5 +1,6 @@
 import React from 'react';
 import Filter from './Filter';
+import {Link} from 'react-router-dom';
 
 const uri = 'http://localhost:5000/cities/all';
 
@@ -51,7 +52,13 @@ class CitiesList extends React.Component {
         <Filter onFilterChange={this.filterCities} />
         <div id="citiesList">
         {this.state.filteredCities.map( city =>
-            <p key={city.name}><b>{city.name}</b>, {city.country}</p>
+          <Link to={{
+            pathname: "./city",
+            city_id: city._id,
+            cityName: city.name
+          }} key={city._id}>
+            <p><b>{city.name}</b>, {city.country}</p>
+          </Link>
           ) }
         </div>
       </section>
