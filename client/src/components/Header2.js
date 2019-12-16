@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, Nav, NavItem, NavLink } from 'reactstrap';
 
-const Header2 = (props) => {
+const defaultUserIcon = require('../images/icons-logos/default-user-icon.png')
+
+
+const Header = (props) => {
   const [collapsed, setCollapsed] = useState(true);
 
   const toggleNavbar = () => setCollapsed(!collapsed);
 
   return (
     <div>
-      <Navbar color="faded" light>
-        <NavbarBrand href="/" className="mr-auto">reactstrap</NavbarBrand>
-        <NavbarToggler onClick={toggleNavbar} className="mr-2" />
+      <Navbar light id="header">
+        <img src={defaultUserIcon} onClick={toggleNavbar} alt="" id="userIcon"/>
+        <NavbarToggler className="mr-2" id="hamburgerButton"/>
         <Collapse isOpen={!collapsed} navbar>
           <Nav navbar>
             <NavItem>
-              <NavLink href="/components/">Components</NavLink>
+              <NavLink href="./signup">Create account</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
+            <NavLink href="./login">Log in</NavLink>
             </NavItem>
           </Nav>
         </Collapse>
@@ -26,4 +29,4 @@ const Header2 = (props) => {
   );
 }
 
-export default Header2;
+export default Header;
