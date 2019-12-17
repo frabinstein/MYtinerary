@@ -25,6 +25,7 @@ html, body, #root, #main {
   height: 100%;
 }
 
+
 #root {
   display: flex;
   flex-direction: column;
@@ -190,6 +191,24 @@ h3 {
 
 #homeButton {
   width: 40px;
+}
+
+#userPic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+  border: 1px solid #3C4F56;
+  border-radius: 50%;
+}
+
+#selectPic {
+  width: 50px;
+}
+
+#selectPic img {
+  width: 100%;
 }
 
 @media only screen and (orientation:landscape) and (max-height: 600px){

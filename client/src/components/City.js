@@ -2,7 +2,8 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import Itinerary from './Itinerary';
 
-const uri = 'http://localhost:5000/cities/itineraries/';
+const axios = require('axios');
+const uri = 'http://localhost:5000/itineraries/city/';
 
 class City extends React.Component {
   constructor(props) {
@@ -23,11 +24,10 @@ class City extends React.Component {
     this.setState({
       isFetching: true
     })
-    fetch(uri + this.city_id)
-      .then(response => response.json())
-      .then(data => {
+    axios.get(uri + this.city_id)
+      .then(response => {
         this.setState({
-            itineraries: data,
+            itineraries: response.data,
             isFetching: false
         })})
       .catch(e => console.log(e));
@@ -40,8 +40,8 @@ class City extends React.Component {
         <h2>Available MYtineraries:</h2>
         <p>{this.state.isFetching ? 'Loading itineraries...' : ''}</p>
         <div id="itinerariesList">
-        {this.state.itineraries.map( itinerary =>
-          <Itinerary key={itinerary._id} itinerary={itinerary} />
+          {this.state.itineraries.map( itinerary =>
+            <Itinerary key={itinerary._id} itinerary={itinerary} />
           ) }
         </div>
         <Link to="./cities">Choose another city</Link>

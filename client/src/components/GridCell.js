@@ -1,6 +1,5 @@
 import React from 'react';
 import '../styles/App.css';
-import { CarouselCaption } from 'reactstrap';
 
 
 class GridCell extends React.Component {

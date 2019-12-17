@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const cityModel = require('../model/cityModel')
-const itineraryModel = require('../model/itineraryModel')
+const axios = require('axios');
 
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
@@ -41,15 +41,6 @@ router.get('/:name',
   }
 )
 
-//Get list of all itineraries
-router.get('/itineraries/all',
-  (req, res) => {
-    itineraryModel.find( {} )
-      .then(itineraries => res.send(itineraries))
-      .catch(err => console.log(err));
-  }
-)
-
 /*
 //Get all itineraries for specific city (by city name)
   //(excluding activities)
@@ -65,25 +56,6 @@ router.get('/:name/itineraries',
 )
 */
 
-//Get all itineraries for specific city
-  //(excluding activities)
-  router.get('/itineraries/:city_id',
-  (req, res) => {
-    itineraryModel.find( { city_id: req.params.city_id }, '-activities'  )
-      .then(itineraries => res.send(itineraries))
-      .catch(err => console.log(err));
-  }
-)
-
-//Get activities for specific itinerary
-  router.get('/itinerary/:itinerary_id/activities',
-  (req, res) => {
-    itineraryModel.find( { _id: req.params.itinerary_id }, 'activities -_id'  )
-      .then(activities => res.send(activities))
-      .catch(err => console.log(err));
-  }
-)
-
 //Post new city
 router.post('/', 
   (req, res) => {
@@ -93,10 +65,9 @@ router.post('/',
     })
 
     /*Checking if city already exists*/
-    fetch("http://localhost:5000/cities/" + newCity.name)
-      .then(response => response.json())
-      .then(data => {
-        if(data.length == 0) {
+    axios.get("http://localhost:5000/cities/" + newCity.name)
+      .then(response => {
+        if(response.headers["content-length"] == 0) {
           newCity.save()
             .then(city => res.send(city))
             .catch(err => res.status(500).send("Server error"))
@@ -107,7 +78,7 @@ router.post('/',
         }
       })
       .catch(e => console.log(e));
-  }
+      }
 )
 
 module.exports = router

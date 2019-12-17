@@ -2,6 +2,7 @@ import React from 'react';
 import Filter from './Filter';
 import {Link} from 'react-router-dom';
 
+const axios = require('axios');
 const uri = 'http://localhost:5000/cities/all';
 
 class CitiesList extends React.Component {
@@ -23,13 +24,12 @@ class CitiesList extends React.Component {
     this.setState({
       isFetching: true
     })
-    fetch(uri)
-      .then(response => response.json())
-      .then(data => {
+    axios.get(uri)
+      .then(response => {
         this.setState({
-            cities: data,
+            cities: response.data,
             isFetching: false,
-            filteredCities: data
+            filteredCities: response.data
         })})
       .catch(e => console.log(e));
   }
@@ -37,7 +37,7 @@ class CitiesList extends React.Component {
   filterCities(filterValue) {
     let filteredCities = this.state.cities
     filteredCities = filteredCities.filter((city) =>
-      city.name.toLowerCase().indexOf(filterValue.toLowerCase()) == 0
+      city.name.toLowerCase().indexOf(filterValue.toLowerCase()) === 0
     )
     this.setState({
       filteredCities
@@ -51,14 +51,14 @@ class CitiesList extends React.Component {
         <p>{this.state.isFetching ? 'Loading cities...' : ''}</p>
         <Filter onFilterChange={this.filterCities} />
         <div id="citiesList">
-        {this.state.filteredCities.map( city =>
-          <Link to={{
-            pathname: "./city",
-            city_id: city._id,
-            cityName: city.name
-          }} key={city._id}>
-            <p><b>{city.name}</b>, {city.country}</p>
-          </Link>
+          {this.state.filteredCities.map( city =>
+            <Link to={{
+              pathname: "./city",
+              city_id: city._id,
+              cityName: city.name
+            }} key={city._id}>
+              <p><b>{city.name}</b>, {city.country}</p>
+            </Link>
           ) }
         </div>
       </section>

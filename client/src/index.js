@@ -3,25 +3,24 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/index.css';
 import './styles/App.css';
-import { composeWithDevTools } from "redux-devtools-extension";
+/*import { composeWithDevTools } from "redux-devtools-extension";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import rootReducer from "./store/reducers/rootReducer";
-import App1 from './App1';
-import App2 from './App2';
+*/import App from './App2';
 import * as serviceWorker from './serviceWorker';
 
-
+/*
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );
-
+*/
 ReactDOM.render(
-  <Provider store={store}>
-    <App2 />,
-  </Provider>,
+//  <Provider store={store}>
+    <App />,
+//  </Provider>,
   document.getElementById("root")
 );
 

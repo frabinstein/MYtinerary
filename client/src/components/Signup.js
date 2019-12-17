@@ -1,11 +1,15 @@
 import React from 'react';
 import { Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
+const axios = require('axios');
+const uri = 'http://localhost:5000/users';
+const defaultUserIcon = require('../images/icons-logos/default-user-icon.png')
 
 class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userPic: '',
       firstName: '',
       lastName: '',
       email: '',
@@ -18,8 +22,19 @@ class Signup extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  togglePictureIcon() {
+    const selectPic = document.getElementById("selectPic");
+    if(selectPic.style.display === "none")
+      selectPic.style.display = "initial";
+    else
+      selectPic.style.display = "none";
+  }
+  
+  selectPicture() {
+    document.getElementById("file").click();
+  }
+
   handleChange(event) {
-//    this.setState({value: event.target.value});
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -30,13 +45,17 @@ class Signup extends React.Component {
   }
 
   handleSubmit(event) {
-    alert('A new user was submitted\nFirst name: ' + this.state.firstName 
-      + '\nLast name: ' + this.state.lastName
-      + '\nEmail: ' + this.state.email
-      + '\nUsername: ' + this.state.username
-      + '\nPassword: ' + this.state.password
-      + '\nCountry: ' + this.state.country
-      + '\nAccepted Terms & Conditions: ' + this.state.tAndC);
+    axios.post(uri, this.state)
+      .then(alert('New user created\nUser pic: ' + this.state.userPic 
+        + '\nFirst name: ' + this.state.firstName
+        + '\nLast name: ' + this.state.lastName
+        + '\nEmail: ' + this.state.email
+        + '\nUsername: ' + this.state.username
+        + '\nPassword: ' + this.state.password
+        + '\nCountry: ' + this.state.country
+        + '\nAccepted Terms & Conditions: ' + this.state.tAndC)
+      )
+    .catch(e => console.log(e));
     event.preventDefault();
   }
 
@@ -45,8 +64,18 @@ class Signup extends React.Component {
       <section className="content" id="signup">
         <h1>Create account</h1>
         <Form onSubmit={this.handleSubmit}>
-          <FormGroup>
-            <Input type="file" name="file" id="exampleFile" />
+          <FormGroup row 
+            onMouseOver={this.togglePictureIcon} 
+            onMouseOut={this.togglePictureIcon} 
+            style={this.state.userPic === "" ? 
+              {background: "red url('../images/icons-logos/default-user-icon.png') no-repeat center", backgroundSize: "112%"} 
+              : {background: "blue url('"+this.state.userPic+"') no-repeat center", backgroundSize: "100%"}}
+            id="userPic">
+            <div onClick={this.selectPicture} style={{display: "none"}} id="selectPic">
+              <img src={require('../images/icons-logos/gray-camera.png')} alt="" />
+              <p>SELECT PICTURE</p>
+            </div>
+            <Input type="file" name="userPic" value={this.state.userPic} onChange={this.handleChange} hidden id="file" />
           </FormGroup>
           <FormGroup row>
             <Label for="firstName" sm={2}>First name</Label>
@@ -103,8 +132,6 @@ class Signup extends React.Component {
             </Label>
           </FormGroup>
           <Button>OK</Button>
-          <Input type="submit" />
-          <Input type="reset" />
         </Form>
       </section>
     );
