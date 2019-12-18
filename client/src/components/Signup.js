@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 const axios = require('axios');
-const uri = 'http://localhost:5000/users';
+const uri = 'http://localhost:5000/users/sigunup';
 const defaultUserIcon = require('../images/icons-logos/default-user-icon.png')
 
 class Signup extends React.Component {

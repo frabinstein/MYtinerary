@@ -4,6 +4,8 @@ const userModel = require('../model/userModel')
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
+const key = require('../keys').secretOrKey;
+const jwt = require("jsonwebtoken");
 
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
@@ -27,7 +29,7 @@ router.get('/:username',
 )
 
 //Post new user
-router.post('/', 
+router.post('/sigunup', 
   //Data format validation
   [
     check('email').isEmail(),
@@ -69,6 +71,28 @@ router.post('/',
               console.log(e);
             });
           });
+        }
+      })
+      .catch(e => console.log(e));
+  }
+)
+
+//Post log in user
+router.post('/login', 
+  (req, res) => {
+    //Checking if user already exists
+    axios.get("http://localhost:5000/users/" + req.body.username)
+      .then(response => {
+        //If user already exists
+        if(response.headers["content-length"] != 0) {
+          bcrypt.compare(req.body.password, response.data.password, (err, res) => {
+            console.log(res);
+          });
+        }
+        else {
+          let msg = "Incorrect credentials";
+          res.send({error: msg});
+          throw new Error(msg);
         }
       })
       .catch(e => console.log(e));
