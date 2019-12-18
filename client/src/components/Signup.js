@@ -45,25 +45,29 @@ class Signup extends React.Component {
   }
 
   handleSubmit(event) {
-    axios.post(uri, this.state)
-      .then(alert('New user created\nUser pic: ' + this.state.userPic 
-        + '\nFirst name: ' + this.state.firstName
-        + '\nLast name: ' + this.state.lastName
-        + '\nEmail: ' + this.state.email
-        + '\nUsername: ' + this.state.username
-        + '\nPassword: ' + this.state.password
-        + '\nCountry: ' + this.state.country
-        + '\nAccepted Terms & Conditions: ' + this.state.tAndC)
-      )
-    .catch(e => console.log(e));
     event.preventDefault();
+    axios.post(uri, this.state)
+      .then(response => {
+        if(response.data.error)
+          alert("Error: " + response.data.error);
+        else
+          alert('New user created\nUser pic: ' + this.state.userPic 
+            + '\nFirst name: ' + this.state.firstName
+            + '\nLast name: ' + this.state.lastName
+            + '\nEmail: ' + this.state.email
+            + '\nUsername: ' + this.state.username
+            + '\nPassword: ' + this.state.password
+            + '\nCountry: ' + this.state.country
+            + '\nAccepted Terms & Conditions: ' + this.state.tAndC);
+        })
+      .catch(e => console.log(e));
   }
 
   render() {
     return (
       <section className="content" id="signup">
         <h1>Create account</h1>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} noValidate>
           <FormGroup row 
             onMouseOver={this.togglePictureIcon} 
             onMouseOut={this.togglePictureIcon} 

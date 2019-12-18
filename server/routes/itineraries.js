@@ -11,7 +11,7 @@ router.get('/all',
   (req, res) => {
     itineraryModel.find( {} )
       .then(itineraries => res.send(itineraries))
-      .catch(err => console.log(err));
+      .catch(e => console.log(e));
   }
 )
 
@@ -21,7 +21,7 @@ router.get('/all',
   (req, res) => {
     itineraryModel.find( { city_id: req.params.city_id }, '-activities'  )
       .then(itineraries => res.send(itineraries))
-      .catch(err => console.log(err));
+      .catch(e => console.log(e));
   }
 )
 
@@ -30,7 +30,7 @@ router.get('/all',
   (req, res) => {
     itineraryModel.find( { _id: req.params.itinerary_id }, 'activities -_id'  )
       .then(activities => res.send(activities))
-      .catch(err => console.log(err));
+      .catch(e => console.log(e));
   }
 )
 
@@ -42,17 +42,21 @@ router.post('/',
       country: req.body.country
     })
 
-    /*Checking if itinerary already exists*/
+    //Checking if itinerary already exists
     axios.get("http://localhost:5000/itineraries/" + newitinerary.name)
       .then(response => {
         if(response.headers["content-length"] == 0) {
           newitinerary.save()
             .then(itinerary => res.send(itinerary))
-            .catch(err => res.status(500).send("Server error"))
+            .catch(e => {
+              res.send(e);
+              console.log(e);
+            });
         }
         else {
-          res.send({ msg: newitinerary.name + " already exists in the database" });
-//          throw new Error(newitinerary.name + " already exists in the database");
+          let msg = newitinerary.name + " already exists in the database";
+          res.send({error: msg});
+          throw new Error(msg);
         }
       })
       .catch(e => console.log(e));
