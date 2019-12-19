@@ -80,22 +80,34 @@ router.post('/sigunup',
 //Post log in user
 router.post('/login', 
   (req, res) => {
+    let credentialsValidated = false;
     //Checking if user already exists
     axios.get("http://localhost:5000/users/" + req.body.username)
       .then(response => {
         //If user already exists
         if(response.headers["content-length"] != 0) {
-          bcrypt.compare(req.body.password, response.data.password, (err, res) => {
-            console.log(res);
-          });
-        }
-        else {
-          let msg = "Incorrect credentials";
-          res.send({error: msg});
-          throw new Error(msg);
-        }
+          //Validate password
+          bcrypt.compare(req.body.password, response.data.password)
+            .then((res) => {
+              credentialsValidated = res;
+              results(response);
+          })
+          .catch(e => console.log(e));
+       }
+        else
+          results(response);
       })
       .catch(e => console.log(e));
+    function results(response) {
+      if(!credentialsValidated) {
+        let msg = "Incorrect credentials";
+        res.send({error: msg});
+        throw new Error(msg);
+      }
+      else {
+        res.send(response.data);
+      }
+    }
   }
 )
 

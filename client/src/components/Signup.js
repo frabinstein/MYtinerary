@@ -104,8 +104,8 @@ class Signup extends React.Component {
             <Col sm={10}>
               <Input type="text" name="username" value={this.state.username} onChange={this.handleChange} id="username" placeholder={this.state.email} />
               <FormText color="muted">
-              You may create a username, or leave it blank to just use your email
-            </FormText>
+                You may create a username, or leave it blank to just use your email
+              </FormText>
             </Col>
           </FormGroup>
           <FormGroup row>
